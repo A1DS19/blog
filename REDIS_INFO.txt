@@ -1,0 +1,2 @@
+Iniciar redis: brew services start redis
+Borrar todos los datos de cache: client.flushall()
