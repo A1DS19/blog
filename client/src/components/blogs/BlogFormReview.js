@@ -7,6 +7,10 @@ import { withRouter } from 'react-router-dom';
 import * as actions from '../../actions';
 
 class BlogFormReview extends Component {
+  state = {
+    file: '',
+  };
+
   renderFields() {
     const { formValues } = this.props;
 
@@ -25,15 +29,12 @@ class BlogFormReview extends Component {
 
     return (
       <div>
-        <button
-          className="yellow darken-3 white-text btn-flat"
-          onClick={onCancel}
-        >
+        <button className='yellow darken-3 white-text btn-flat' onClick={onCancel}>
           Back
         </button>
-        <button className="green btn-flat right white-text">
+        <button className='green btn-flat right white-text'>
           Save Blog
-          <i className="material-icons right">email</i>
+          <i className='material-icons right'>email</i>
         </button>
       </div>
     );
@@ -44,7 +45,13 @@ class BlogFormReview extends Component {
 
     const { submitBlog, history, formValues } = this.props;
 
-    submitBlog(formValues, history);
+    //Se manda el archivo desde state
+    submitBlog(formValues, this.state.file, history);
+  }
+
+  onFileChange(event) {
+    //Solo se toma el primer archivo con [0]
+    this.setState({ file: event.target.files[0] });
   }
 
   render() {
@@ -52,7 +59,13 @@ class BlogFormReview extends Component {
       <form onSubmit={this.onSubmit.bind(this)}>
         <h5>Please confirm your entries</h5>
         {this.renderFields()}
-
+        <h5>Add an image</h5>
+        <input
+          onChange={this.onFileChange.bind(this)}
+          type='file'
+          accept='image/*'
+          style={{ marginBottom: '20px' }}
+        />
         {this.renderButtons()}
       </form>
     );
