@@ -10,11 +10,13 @@ require('./models/Blog');
 require('./services/passport');
 require('./services/cache');
 
+//Config
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, { useMongoClient: true });
 
 const app = express();
 
+//Middleware
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -25,8 +27,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Rutas
 require('./routes/authRoutes')(app);
 require('./routes/blogRoutes')(app);
+require('./routes/uploadFilesRoutes')(app);
 
 if (['production'].includes(process.env.NODE_ENV)) {
   app.use(express.static('client/build'));
